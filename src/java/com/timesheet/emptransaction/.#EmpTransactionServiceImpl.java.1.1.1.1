@@ -1,0 +1,315 @@
+package com.timesheet.emptransaction;
+
+import com.timesheet.bean.AssignBy;
+import com.timesheet.bean.EmpTransaction;
+import com.timesheet.bean.Employee;
+import com.timesheet.bean.Project;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+
+public class EmpTransactionServiceImpl extends HttpServlet implements EmpTransactionService {
+    HttpServletRequest request;
+    protected SimpleJdbcTemplate jdbcTemplate = null;
+
+    public void setDataSource(final DataSource dataSource) {
+        this.jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+    }
+
+    public SimpleJdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(SimpleJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void addTransaction(String emp_id) {
+        System.out.println("=== addTransaction is called....");
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String trans_date = sdf.format(dt);
+
+        String start_time = getTimeFormat(dt);
+
+        String query = "INSERT INTO EMPLOYEE_TRANSACTION (emp_id, trans_date, start_time) VALUES(?,?,?)";
+        Object[] obj = new Object[]{emp_id, trans_date, start_time};
+        jdbcTemplate.getJdbcOperations().update(query, obj);
+    }
+
+    public boolean updateTransaction(String emp_id, int assign_by, String proxy_empid, int proj_id, String work_desc) {
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String trans_date = sdf.format(dt);
+        String end_time = getTimeFormat(dt);
+        String statusT = "T";
+        String statusF = "F";
+        String query = "UPDATE EMPLOYEE_TRANSACTION SET " +
+                "end_time='" + end_time + "', assign_by='" + assign_by + "', " +
+                "proxy_empid='" + proxy_empid + "', proj_id='" + proj_id + "', " +
+                "work_desc='" + work_desc + "', status='" + statusT + "' " +
+                "where emp_id='" + emp_id + "' and " +
+                "trans_date='" + trans_date + "' and " +
+                "status='" + statusF + "'";
+
+        jdbcTemplate.getJdbcOperations().update(query);
+        return true;
+    }
+
+    private String getTimeFormat(Date dt) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String fmt_time = sdf.format(dt);
+        return fmt_time;
+    }
+
+    public List<AssignBy> getAssignByList() {
+        String query = "SELECT * FROM ASSIGN_BY_MASTER";
+        List<AssignBy> assign_by = jdbcTemplate.getJdbcOperations().query(query, new AssignByRowMapper());
+        return assign_by;
+    }
+
+    public List<Employee> getProxyEmpList() {
+        String query = "SELECT emp_id, emp_fname, emp_lname, dept_id, desi_id FROM EMPLOYEE_MASTER";
+        List<Employee> employee = jdbcTemplate.getJdbcOperations().query(query, new EmployeeRowMaster());
+        return employee;
+    }
+
+    public List<Project> getProjectList() {
+        String query = "SELECT proj_id, proj_name FROM PROJECT_MASTER";
+        List<Project> project = jdbcTemplate.getJdbcOperations().query(query, new ProjectRowMapper());
+        return project;
+    }
+
+    private static class AssignByRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            AssignBy ab = new AssignBy();
+            ab.setAssign_by_id(rs.getInt("assign_by_id"));
+            ab.setAssign_by_name(rs.getString("assign_by_name"));
+            return ab;
+        }
+    }
+
+    private static class EmployeeRowMaster implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Employee employee = new Employee();
+            employee.setEmp_id(rs.getString("emp_id"));
+            employee.setEmp_fname(rs.getString("emp_fname"));
+            employee.setEmp_lname(rs.getString("emp_lname"));
+            employee.setDept_id(rs.getInt("dept_id"));
+            employee.setDesi_id(rs.getInt("desi_id"));
+            return employee;
+        }
+    }
+
+    private static class ProjectRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Project p = new Project();
+            p.setProj_id(rs.getInt("proj_id"));
+            p.setProj_name(rs.getString("proj_name"));
+            return p;
+        }
+    }
+
+    public List<EmpTransaction> getCurrentTransaction(String emp_id) {
+        String query = "select * from employee_master emp, employee_transaction et, " +
+                "assign_by_master ab, project_master proj " +
+                "where ab.assign_by_id=et.assign_by and " +
+                "emp.emp_id=et.proxy_empid and " +
+                "et.proj_id=proj.proj_id and " +
+                "et.emp_id='" + emp_id + "' and " +
+                "et.trans_date=CURDATE()";
+
+        System.out.println("query is created....: " + query);
+
+        List<EmpTransaction> emp_trans_list = jdbcTemplate.getJdbcOperations().query(query, new CurrTransRowMapper());
+
+        System.out.println("List is done..." + emp_trans_list);
+        return emp_trans_list;
+    }
+
+    public EmpTransaction getDetail(long trans_id) {
+        String query = "SELECT * FROM EMPLOYEE_TRANSACTION WHERE trans_id='" + trans_id + "' and trans_date=CURDATE()-2";
+        System.out.println("query is created in getProject: " + query);
+        EmpTransaction trans = (EmpTransaction) jdbcTemplate.getJdbcOperations().queryForObject(query, new TransRowMapper());
+        return trans;
+    }
+
+    public List<EmpTransaction> getTransaction(String emp_id) {
+        try {
+            String chkDateQuery = "SELECT DISTINCT(trans_date) FROM EMPLOYEE_TRANSACTION " +
+                    "WHERE emp_id='" + emp_id + "' ORDER BY trans_date desc limit 1";
+            EmpTransaction et = (EmpTransaction) jdbcTemplate.getJdbcOperations().queryForObject(chkDateQuery, new getChkDate());
+            String chkDate = et.getTrans_date().toString();
+            System.out.println("The Check Date is===" + chkDate);
+
+            Date dt = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String cur_date = sdf.format(dt);
+            System.out.println("cur_date: " + cur_date);
+
+            if (chkDate.equals(cur_date)) {
+                String trans_date_query = "SELECT DISTINCT(trans_date) FROM EMPLOYEE_TRANSACTION " +
+                        "WHERE emp_id='" + emp_id + "' ORDER BY trans_date desc limit 1,1";
+                EmpTransaction et1 = (EmpTransaction) jdbcTemplate.getJdbcOperations().queryForObject(trans_date_query, new getChkDate());
+                String trans_date = et1.getTrans_date().toString();
+                
+                System.out.println("trans_date in level 1: " + trans_date);
+                String query = "select * from employee_master emp, employee_transaction et, " +
+                        "assign_by_master ab, project_master proj " +
+                        "where ab.assign_by_id=et.assign_by and " +
+                        "emp.emp_id=et.proxy_empid and " +
+                        "et.proj_id=proj.proj_id and " +
+                        "et.emp_id='" + emp_id + "' and " +
+                        "et.trans_date='" + trans_date + "'";
+                System.out.println("query is created....: " + query);
+                List<EmpTransaction> emp_trans_list = jdbcTemplate.getJdbcOperations().query(query, new CurrTransRowMapper());
+                System.out.println("List is done..." + emp_trans_list);
+                return emp_trans_list;
+            } else {
+                String query = "select * from employee_master emp, employee_transaction et, " +
+                        "assign_by_master ab, project_master proj " +
+                        "where ab.assign_by_id=et.assign_by and " +
+                        "emp.emp_id=et.proxy_empid and " +
+                        "et.proj_id=proj.proj_id and " +
+                        "et.emp_id='" + emp_id + "' and " +
+                        "et.trans_date='" + chkDate + "'";
+               
+                System.out.println("query is created....: " + query);
+                List<EmpTransaction> emp_trans_list = jdbcTemplate.getJdbcOperations().query(query, new CurrTransRowMapper());
+                System.out.println("List is done..." + emp_trans_list);
+                return emp_trans_list;
+            }
+        } catch (DataAccessException dae) {
+            return null;
+        }
+
+    }
+
+    private static class getChkDate implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            EmpTransaction et = new EmpTransaction();
+            et.setTrans_date(rs.getString("trans_date"));
+            return et;
+        }
+    }
+
+    public static String getDD_MM_YYYY(Date enteredDate) {
+        String ansdate = null;
+        try {
+            System.out.println("Into The getDD_MM_YYYY() method..." + enteredDate);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+            ansdate = sdf1.format(enteredDate);
+            return ansdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static class CurrTransRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            EmpTransaction et = new EmpTransaction();
+            et.setTrans_id(rs.getLong("trans_id"));
+            et.setEmp_id(rs.getString("emp_id"));
+            et.setTrans_date(getDD_MM_YYYY(rs.getDate("trans_date")));
+            et.setStart_time(rs.getString("start_time"));
+            et.setEnd_time(rs.getString("end_time"));
+            et.setAssign_by_id(rs.getInt("assign_by"));
+            et.setAssign_by_name(rs.getString("assign_by_name"));
+            et.setProxy_empid(rs.getString("proxy_empid"));
+            et.setEmp_fname(rs.getString("emp_fname"));
+            et.setProj_id(rs.getInt("proj_id"));
+            et.setProj_name(rs.getString("proj_name"));
+            et.setWork_desc(rs.getString("work_desc"));
+            return et;
+        }
+    }
+
+    private static class TransRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            EmpTransaction et = new EmpTransaction();
+            et.setTrans_id(rs.getLong("trans_id"));
+            et.setEmp_id(rs.getString("emp_id"));
+            et.setAssign_by_id(rs.getInt("assign_by"));
+            et.setProxy_empid(rs.getString("proxy_empid"));
+            et.setProj_id(rs.getInt("proj_id"));
+            et.setWork_desc(rs.getString("work_desc"));
+            return et;
+        }
+    }
+
+    public boolean updateTimesheet(long trans_id, int assign_by, String proxy_empid, int proj_id, String work_desc) {
+        String query = "UPDATE EMPLOYEE_TRANSACTION SET assign_by='" + assign_by + "', " +
+                "proxy_empid='" + proxy_empid + "', proj_id='" + proj_id + "', work_desc='" + work_desc + "' " +
+                "where trans_id='" + trans_id + "'";
+
+        jdbcTemplate.getJdbcOperations().update(query);
+        return true;
+    }
+
+    public String getPrevDayTotalHours(String emp_id) {
+        try {
+            String chkDateQuery = "SELECT DISTINCT(trans_date) FROM EMPLOYEE_TRANSACTION " +
+                    "WHERE emp_id='" + emp_id + "' ORDER BY trans_date desc limit 1";
+            EmpTransaction et = (EmpTransaction) jdbcTemplate.getJdbcOperations().queryForObject(chkDateQuery, new getChkDate());
+            String chkDate = et.getTrans_date().toString();
+            System.out.println("The Check Date is===" + chkDate);
+
+            Date dt = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String cur_date = sdf.format(dt);
+            System.out.println("cur_date: " + cur_date);
+
+            if (chkDate.equals(cur_date)) {
+                String trans_date_query = "SELECT DISTINCT(trans_date) FROM EMPLOYEE_TRANSACTION " +
+                        "WHERE emp_id='" + emp_id + "' ORDER BY trans_date desc limit 1,1";
+                EmpTransaction et1 = (EmpTransaction) jdbcTemplate.getJdbcOperations().queryForObject(trans_date_query, new getChkDate());
+                String trans_date = et1.getTrans_date().toString();
+                System.out.println("trans_date in level 1: " + trans_date);
+                String query = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(end_time,start_time)))) " +
+                        "FROM EMPLOYEE_TRANSACTION WHERE emp_id='" + emp_id + "' and trans_date='" + trans_date + "'";
+                System.out.println("query is created...:" + query);
+                List<EmpTransaction> tot_hrs = jdbcTemplate.getJdbcOperations().queryForList(query);
+                String totalhours = tot_hrs.toString().substring(63, 71);
+                System.out.println("totalhours in getTotalHours: " + totalhours);
+                return totalhours;
+            } else {
+                String query = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(end_time,start_time)))) " +
+                        "FROM EMPLOYEE_TRANSACTION WHERE emp_id='" + emp_id + "' and trans_date='" + chkDate + "'";
+                System.out.println("query is created....: " + query);
+                List<EmpTransaction> tot_hrs = jdbcTemplate.getJdbcOperations().queryForList(query);
+                String totalhours = tot_hrs.toString().substring(63, 71);
+                System.out.println("totalhours in getTotalHours: " + totalhours);
+                return totalhours;
+            }
+        } catch (StringIndexOutOfBoundsException se) {
+            return null;
+        } catch (DataAccessException dae) {
+            return null;
+        }
+    }
+
+    public List<EmpTransaction> getTimeDiff(String emp_id) {
+        String query = "SELECT TIMEDIFF(end_time,start_time) AS DURATION FROM EMPLOYEE_TRANSACTION " +
+                "WHERE emp_id='" + emp_id + "' and trans_date=CURDATE()-2";
+        List<EmpTransaction> timediff = jdbcTemplate.getJdbcOperations().queryForList(query);
+        System.out.println("your string " + timediff);
+
+        return timediff;
+    }
+}

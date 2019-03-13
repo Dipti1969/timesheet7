@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+
+   <!--<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+       <property name="order" value="1">
+       </property>
+       <property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+        <property name="prefix"><value>/WEB-INF/jsp/</value></property>
+        <property name="suffix"><value>.htm</value></property>
+    </bean>-->
+
+    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver" >
+        <property name="order" value="0">
+        </property>
+        <property name="viewClass" >
+            <value>org.springframework.web.servlet.view.tiles2.TilesView</value>
+        </property>
+    </bean>-->
+
+
+<bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver" >
+        <property name="basename" value="views" />
+    </bean>
+<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+<property name="prefix" value="/WEB-INF/jsp/"/>
+<property name="suffix" value=".jsp"/>
+</bean>
+
+<!--<bean id="excelViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+<property name="order" value="1"/>
+<property name="location" value="/WEB-INF/views.xml"/>
+</bean>
+-->
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/timesheet-def.xml</value>
+            </list>
+        </property>
+    </bean>
+
+     <!-- Service bean list start-->
+    <bean id="loginService" class="com.timesheet.login.LoginServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="registrationservice" class="com.timesheet.registration.RegistrationServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="profileservice" class="com.timesheet.changeprofile.ProfileServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="nextIDService" class="com.timesheet.registration.NextIDServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="manageService" class="com.timesheet.common.ManageServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="projectService" class="com.timesheet.project.ProjectServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="empTransactionService" class="com.timesheet.emptransaction.EmpTransactionServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="manageTimeSheetService" class="com.timesheet.adminmanagetimesheet.ManageTimeSheetServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="adminReportService" class="com.timesheet.report.AdminReportServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+    <bean id="masterService" class="com.timesheet.master.MasterServiceImpl">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate"/>
+        </property>
+    </bean>
+
+    <bean id="empvalidation" class="com.timesheet.validation.UserValidatorController"  p:profileService-ref="profileservice" />
+    <bean id="projectvalidation" class="com.timesheet.validation.ProjectValidatorController"/>
+    <bean id="updateprojectvalidation" class="com.timesheet.validation.updateProjectValidatorController" />
+    <bean id="empvalidation1" class="com.timesheet.validation.EditValidatorController" p:profileService-ref="profileservice"/>
+    <bean id="profilevalidation" class="com.timesheet.validation.ProfileValidatorController" p:profileService-ref="profileservice"/>
+    <bean id="timesheetvalidation" class="com.timesheet.validation.TimesheetValidatorController" p:empTransactionService-ref="empTransactionService" />
+    <bean id="rightAddTimesheetValidation" class="com.timesheet.validation.RightAddTimesheetValidator" p:empTransactionService-ref="empTransactionService" />
+    <bean id="adminedittimesheetvalidation" class="com.timesheet.validation.AdminEditTimesheetValidator"/>
+    <bean id="addadmintimesheetvalidation" class="com.timesheet.validation.AddAdminTimeSheetValidator" p:empTransactionService-ref="empTransactionService" />
+    <bean id="editadmintimesheetvalidation" class="com.timesheet.validation.EditAdminTimeSheetValidator" p:empTransactionService-ref="empTransactionService" />
+    <!-- Service bean list end-->
+
+    <!-- request urlmapping start -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="index.htm">loginController</prop>
+                <!--prop key="logout.htm">logoutController</prop-->
+                <prop key="adminhome.htm">AdminController</prop>
+                <prop key="emphome.htm">EmployeeController</prop>
+                <prop key="receptionisthome.htm">ReceptionController</prop>
+                <prop key="registration.htm">registrationController</prop>
+                <prop key="manageuser.htm">manageUserController</prop>
+                <prop key="updateuser.htm">updateUserController</prop>
+                <prop key="viewuser.htm">viewUserController</prop>
+                <prop key="blockuser.htm">blockUserController</prop>
+                <prop key="unblockuser.htm">unblockUserController</prop>
+                <prop key="changepassword.htm">changePassword</prop>
+                <prop key="changeprofile.htm">updateProfileController</prop>
+                <prop key="manageassignby.htm">ManageAssignByController</prop>
+                <prop key="addassignby.htm">AddAssignByController</prop>
+                <prop key="updateassignby.htm">UpdateAssignByController</prop>
+                <prop key="blockassign.htm">blockAssignController</prop>
+                <prop key="unblockassign.htm">unblockAssignController</prop>
+                <prop key="manageproject.htm">manageProjectController</prop>
+                <prop key="addproject.htm">addProjectController</prop>
+                <prop key="updateproject.htm">updateProjectController</prop>
+                <prop key="viewproject.htm">viewProjectController</prop>
+                <prop key="blockproject.htm">blockProjectController</prop>
+                <prop key="unblockproject.htm">unblockProjectController</prop>
+                <prop key="addnewtransaction.htm">newTransactionController</prop>
+                <prop key="addtimesheet.htm">addTimeSheetController</prop>
+                <prop key="managetimesheet.htm">manageTimeSheetController</prop>
+                <prop key="updatetimesheet.htm">updateTimeSheetController</prop>
+                <prop key="datewisehtml.htm">HtmlController</prop>
+                <prop key="dailyhtml.htm">HtmlController</prop>
+                <prop key="monthwisehtml.htm">HtmlController</prop>
+                 <prop key="customdatewisehtml.htm">HtmlController</prop>
+                <prop key="yearwisehtml.htm">HtmlController</prop>
+                <prop key="employeewisehtml.htm">HtmlController</prop>
+                <prop key="criteriawisehtml.htm">HtmlController</prop>
+                <prop key="empdatewisehtml.htm">EmpHtmlReportController</prop>
+                <prop key="empyearwisehtml.htm">EmpHtmlReportController</prop>
+                <prop key="empmonthwisehtml.htm">EmpHtmlReportController</prop>
+                <prop key="empcustomdatewisehtml.htm">EmpHtmlReportController</prop>
+
+                <prop key="projectcatagoryhtml.htm">HtmlController</prop>
+                <prop key="assigncatagoryhtml.htm">HtmlController</prop>
+                <prop key="report1html.htm">HtmlController</prop>
+                <prop key="report2html.htm">HtmlController</prop>
+                <prop key="report5html.htm">HtmlController</prop>
+                <prop key="report6html.htm">HtmlController</prop>
+                <prop key="report7html.htm">HtmlController</prop>
+                <prop key="report8html.htm">HtmlController</prop>
+                <prop key="adminmanagetimesheet.htm">adminTimeSheetController</prop>
+                <prop key="viewtimesheet.htm">viewTimeSheetController</prop>
+                <prop key="forgotpassword.htm">forgotPasswordController</prop>
+                <prop key="adminreport.htm">adminReportController</prop>
+                <prop key="employeereport.htm">employeeReportController</prop>
+                <prop key="receptionistreport.htm">receptionistReportController</prop>
+                <prop key="checkhours.htm">checkHoursController</prop>
+                <prop key="datewiseExcel.xls">ExcelController</prop>
+                <prop key="dailyExcel.xls">ExcelController</prop>
+                <prop key="customdateExcel.xls">ExcelController</prop>
+                <prop key="monthwiseExcel.xls">ExcelController</prop>
+                <prop key="yearwiseExcel.xls">ExcelController</prop>
+                <prop key="employeewiseExcel.xls">ExcelController</prop>
+                <prop key="adminedit.htm">AdminEditController</prop>
+                <prop key="addrighttimesheet.htm">RightAddTimesheetController</prop>
+                <prop key="adminedittimesheet.htm">AdminEditTimeSheetController</prop>
+                <prop key="checktotalhours.htm">checkTotalHours</prop>
+                <prop key="viewalltimesheet.htm">viewAllTimeSheetController</prop>
+                <prop key="addadmintimesheet.htm">addAdminTimeSheetController</prop>
+                <prop key="updatetransaction.htm">updateTransactionController</prop>
+                <prop key="resetpassword.htm">resetPassController</prop>
+                <prop key="deleteassignby.htm">deleteAssignByController</prop>
+                <prop key="deleteuser.htm">deleteUserController</prop>
+                <prop key="empindex.htm">empHome1Controller</prop>
+                <prop key="deleteproject.htm">deleteProjectController</prop>
+                <prop key="deletetransaction.htm">deleteTransactionController</prop>
+                <prop key="managemasters.htm">manageMastersController</prop>
+                <prop key="managedept.htm">ManageDeptController</prop>
+                <prop key="adddept.htm">AddDeptController</prop>
+                <prop key="updatedept.htm">UpdateDeptController</prop>
+                <prop key="deletedept.htm">DeleteDeptController</prop>
+                <prop key="blockdept.htm">blockDeptController</prop>
+                <prop key="unblockdept.htm">unblockDeptController</prop>
+                <prop key="managedesi.htm">ManageDesiController</prop>
+                <prop key="adddesi.htm">AddDesiController</prop>
+                <prop key="updatedesi.htm">UpdateDesiController</prop>
+                <prop key="deletedesi.htm">DeleteDesiController</prop>
+                <prop key="blockdesi.htm">blockDesiController</prop>
+                <prop key="unblockdesi.htm">unblockDesiController</prop>
+                <prop key="customdateExcel1.xls">ExcelController</prop>
+                <prop key="projectcatagoryExcel.xls">ExcelController</prop>
+                <prop key="assigncatagoryExcel.xls">ExcelController</prop>
+                <prop key="report2Excel.xls">ExcelController</prop>
+                <prop key="report5Excel.xls">ExcelController</prop>
+                <prop key="report6Excel.xls">ExcelController</prop>
+                <prop key="report7Excel.xls">ExcelController</prop>
+                <prop key="report8Excel.xls">ExcelController</prop>
+                <prop key="empdatewiseExcel.xls">EmpExcelController</prop>
+                <prop key="projectcatagoryExcel1.xls">ExcelController1</prop>
+                <prop key="assigncatagoryExcel1.xls">ExcelController1</prop>
+                <prop key="report2Excel1.xls">ExcelController1</prop>
+                <prop key="report5Excel1.xls">ExcelController1</prop>
+                <prop key="report6Excel1.xls">ExcelController1</prop>
+                <prop key="report7Excel1.xls">ExcelController1</prop>
+                <prop key="report8Excel1.xls">ExcelController1</prop>
+                <prop key="empdatewiseExcel.xls">EmpExcelController</prop>
+                <prop key="empcustomdatewiseExcel.xls">EmpExcelController</prop>
+                <prop key="empmonthwiseExcel.xls">EmpExcelController</prop>
+                <prop key="empyearwiseExcel.xls">EmpExcelController</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- request urlmapping start -->
+
+
+    <!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages" />
+
+
+   <!-- request url controllers start-->
+    <bean id="loginController"
+        class="com.timesheet.login.LoginController"
+        p:loginService-ref="loginService" p:empTransactionService-ref="empTransactionService"
+        p:formView="index" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="registrationController"
+        class="com.timesheet.registration.RegistrationController"
+        p:registrationService-ref="registrationservice"
+        p:loginService-ref="loginService"
+        p:formView="registration"
+        p:successView="manageuser"
+        p:validator-ref="empvalidation">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="manageUserController"
+    class="com.timesheet.registration.manageUserController"
+    p:registrationService-ref="registrationservice"
+    />
+
+    <bean id="updateUserController"
+    class="com.timesheet.registration.updateUserController"
+    p:registrationService-ref="registrationservice"
+    p:validator-ref="empvalidation1" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="AdminController"
+    class="com.controller.adminHomeController" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="EmployeeController"
+    class="com.controller.empHomeController"
+    p:loginService-ref="loginService"
+    p:empTransactionService-ref="empTransactionService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="ReceptionController"
+    class="com.controller.receptionistHomeController">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="viewUserController"
+    class="com.timesheet.registration.viewUserController"
+    p:registrationService-ref="registrationservice"
+    />
+
+    <bean id="updateProfileController"
+    class="com.timesheet.changeprofile.updateProfileController"
+    p:profileService-ref="profileservice"
+    p:registrationService-ref="registrationservice"
+    p:loginService-ref="loginService"
+    p:empTransactionService-ref="empTransactionService"
+    p:validator-ref="profilevalidation">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="changePassword"
+        class="com.timesheet.login.ChangePasswordController"
+        p:loginService-ref="loginService" p:empTransactionService-ref="empTransactionService"
+        p:adminReportService-ref="adminReportService"
+        p:formView="changepassword">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="ManageAssignByController"
+    class="com.timesheet.common.ManageAssignByController"
+    p:manageService-ref="manageService"
+    />
+
+    <bean id="AddAssignByController"
+        class="com.timesheet.common.AddAssignByController"
+        p:manageService-ref="manageService"
+        p:formView="addassignby"
+        p:successView="manageassignby">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="UpdateAssignByController"
+        class="com.timesheet.common.UpdateAssignByController"
+        p:manageService-ref="manageService"
+        p:formView="updateassignby"
+        p:successView="manageassignby">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="manageProjectController"
+        class="com.timesheet.project.ManageProjectController"
+        p:projectService-ref="projectService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="addProjectController"
+        class="com.timesheet.project.AddProjectController"
+        p:projectService-ref="projectService" p:validator-ref="projectvalidation">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="updateProjectController"
+        class="com.timesheet.project.UpdateProjectController"
+        p:projectService-ref="projectService" p:validator-ref="updateprojectvalidation">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+
+    <bean id="viewProjectController"
+    class="com.timesheet.project.viewProjectController"
+    p:projectService-ref="projectService"
+    />
+
+    <bean id="newTransactionController"
+        class="com.timesheet.emptransaction.EmpTransactionController"
+        p:empTransactionService-ref="empTransactionService"
+        p:loginService-ref="loginService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="addTimeSheetController"
+        class="com.timesheet.emptransaction.AddTimeSheetController"
+        p:empTransactionService-ref="empTransactionService" p:validator-ref="timesheetvalidation"
+        p:loginService-ref="loginService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="manageTimeSheetController"
+        class="com.timesheet.emptransaction.ManageTimeSheetController"
+        p:empTransactionService-ref="empTransactionService"
+        p:loginService-ref="loginService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="updateTimeSheetController"
+        class="com.timesheet.emptransaction.UpdateTimeSheetController"
+        p:empTransactionService-ref="empTransactionService" p:validator-ref="timesheetvalidation"
+        p:loginService-ref="loginService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="adminTimeSheetController"
+        class="com.timesheet.adminmanagetimesheet.AdminManageTimeSheetController"
+        p:timeSheetService-ref="manageTimeSheetService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="viewTimeSheetController"
+        class="com.timesheet.adminmanagetimesheet.ViewTimeSheetController"
+        p:timeSheetService-ref="manageTimeSheetService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="forgotPasswordController"
+        class="com.timesheet.login.ForgotPasswordController"
+        p:loginService-ref="loginService" >
+    </bean>
+
+    <bean id="adminReportController"
+        class="com.timesheet.report.AdminReportController"
+        p:adminReportService-ref="adminReportService"
+        p:empTransactionService-ref="empTransactionService"
+        p:commandName="adminreport">
+        <property name="jt">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="employeeReportController"
+        class="com.timesheet.report.EmployeeReportController"
+        p:adminReportService-ref="adminReportService" >
+        <property name="jt">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="receptionistReportController"
+        class="com.timesheet.report.ReceptionistReportController"
+        p:adminReportService-ref="adminReportService" >
+        <property name="jt">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="blockUserController"
+        class="com.timesheet.registration.blockUserController"
+        p:registrationService-ref="registrationservice" />
+
+    <bean id="unblockUserController"
+        class="com.timesheet.registration.unblockUserController"
+        p:registrationService-ref="registrationservice" >
+    </bean>
+
+    <bean id="blockAssignController"
+        class="com.timesheet.common.blockAssignController"
+       p:manageService-ref="manageService" />
+
+    <bean id="unblockAssignController"
+        class="com.timesheet.common.unblockAssignController"
+        p:manageService-ref="manageService" >
+    </bean>
+
+    <bean id="blockProjectController"
+        class="com.timesheet.project.blockProjectController"
+        p:projectService-ref="projectService" />
+
+    <bean id="unblockProjectController"
+        class="com.timesheet.project.unblockProjectController"
+        p:projectService-ref="projectService" >
+    </bean>
+
+    <bean id="blockDeptController"
+        class="com.timesheet.master.blockDeptController"
+        p:masterService-ref="masterService" />
+
+    <bean id="unblockDeptController"
+        class="com.timesheet.master.unblockDeptController"
+        p:masterService-ref="masterService" >
+    </bean>
+
+    <bean id="blockDesiController"
+        class="com.timesheet.master.blockDesiController "
+        p:masterService-ref="masterService" />
+
+    <bean id="unblockDesiController"
+        class="com.timesheet.master.unblockDesiController"
+        p:masterService-ref="masterService" >
+    </bean>
+
+    <bean id="checkHoursController"
+        class="com.timesheet.emptransaction.CheckHoursController"
+        p:timeSheetService-ref="manageTimeSheetService"
+        p:empTransactionService-ref="empTransactionService" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="ExcelController"
+        class="com.timesheet.report.ExcelReportController"
+        p:adminReportService-ref="adminReportService">
+    </bean>
+
+ <bean id="ExcelController1"
+        class="com.timesheet.report.ExcelReportController1"
+        p:adminReportService-ref="adminReportService">
+    </bean>
+
+<bean id="HtmlController"
+        class="com.timesheet.report.HtmlReportController"
+        p:adminReportService-ref="adminReportService">
+          <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+<bean id="EmpHtmlReportController"
+        class="com.timesheet.report.EmpHtmlReportController"
+        p:adminReportService-ref="adminReportService">
+    </bean>
+
+
+    <bean id="EmpExcelController"
+        class="com.timesheet.report.EmpExcelController"
+        p:adminReportService-ref="adminReportService">
+    </bean>
+
+    <bean id="AdminEditController"
+        class="com.timesheet.adminmanagetimesheet.AdminEditController"
+        p:timeSheetService-ref="manageTimeSheetService">
+    </bean>
+    <bean id="AdminEditTimeSheetController"
+        class="com.timesheet.adminmanagetimesheet.AdminEditTimeSheetController"
+        p:manageTimeSheetService-ref="manageTimeSheetService"
+        p:empTransactionService-ref="empTransactionService"
+        p:validator-ref="adminedittimesheetvalidation"
+        >
+    </bean>
+    <bean id="RightAddTimesheetController"
+        class="com.timesheet.emptransaction.RightAddTimesheetController"
+         p:empTransactionService-ref="empTransactionService"
+        p:loginService-ref="loginService"
+        p:validator-ref="rightAddTimesheetValidation" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="checkTotalHours"
+        class="com.timesheet.emptransaction.CheckTotalHoursController"
+        p:empTransactionService-ref="empTransactionService"
+        p:loginService-ref="loginService"
+        p:adminReportService-ref="adminReportService"
+        p:timeSheetService-ref="manageTimeSheetService" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="viewAllTimeSheetController"
+        class="com.timesheet.emptransaction.ViewAllTimeSheetController"
+        p:empTransactionService-ref="empTransactionService"
+        p:loginService-ref="loginService" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="addAdminTimeSheetController"
+        class="com.timesheet.adminmanagetimesheet.AddAdminTimeSheetController"
+        p:empTransactionService-ref="empTransactionService"
+        p:timeSheetService-ref="manageTimeSheetService"
+        p:validator-ref="addadmintimesheetvalidation" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="updateTransactionController"
+        class="com.timesheet.adminmanagetimesheet.UpdateTransactionController"
+        p:timeSheetService-ref="manageTimeSheetService"
+        p:empTransactionService-ref="empTransactionService"
+        p:validator-ref="editadmintimesheetvalidation" >
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="resetPassController"
+        class="com.timesheet.login.ResetPasswordController"
+        p:loginService-ref="loginService">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="deleteAssignByController"
+        class="com.timesheet.common.DeleteAssignByController"
+        p:manageService-ref="manageService">
+    </bean>
+
+    <bean id="deleteUserController"
+        class="com.timesheet.registration.DeleteUserController"
+        p:registrationService-ref="registrationservice">
+    </bean>
+
+    <bean id="empHome1Controller" class="com.controller.empHomeController1">
+
+    </bean>
+
+    <bean id="deleteProjectController"
+        class="com.timesheet.project.DeleteProjectController"
+        p:projectService-ref="projectService" />
+
+    <bean id="deleteTransactionController"
+        class="com.timesheet.adminmanagetimesheet.DeleteTransactionController"
+        p:timeSheetService-ref="manageTimeSheetService">
+    </bean>
+
+    <bean id="manageMastersController"
+        class="com.timesheet.master.ManageMastersController">
+
+    </bean>
+    <bean id="ManageDeptController"
+    class="com.timesheet.master.ManageDeptController"
+    p:masterService-ref="masterService"
+    />
+    <bean id="AddDeptController"
+        class="com.timesheet.master.AddDeptController"
+        p:masterService-ref="masterService"
+        p:formView="adddept"
+        p:successView="managedept">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="UpdateDeptController"
+        class="com.timesheet.master.UpdateDeptController"
+        p:masterService-ref="masterService"
+        p:formView="updatedept"
+        p:successView="managedept">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="DeleteDeptController" class="com.timesheet.master.DeleteDeptController"
+    p:masterService-ref="masterService">
+
+    </bean>
+
+    <bean id="ManageDesiController"
+    class="com.timesheet.master.ManageDesiController"
+    p:masterService-ref="masterService"
+    />
+    <bean id="AddDesiController"
+        class="com.timesheet.master.AddDesiController"
+        p:masterService-ref="masterService"
+        p:formView="adddesi"
+        p:successView="managedesi">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="UpdateDesiController"
+        class="com.timesheet.master.UpdateDesiController"
+        p:masterService-ref="masterService"
+        p:formView="updatedesi"
+        p:successView="managedesi">
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="synchronizeOnSession">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="DeleteDesiController" class="com.timesheet.master.DeleteDesiController"
+    p:masterService-ref="masterService">
+
+    </bean>
+   <!-- request url controllers end-->
+
+</beans>

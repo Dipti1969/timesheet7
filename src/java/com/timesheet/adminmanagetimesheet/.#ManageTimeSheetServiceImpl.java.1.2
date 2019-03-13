@@ -1,0 +1,134 @@
+package com.timesheet.adminmanagetimesheet;
+
+import com.timesheet.bean.EmpTransaction;
+import com.timesheet.bean.Employee;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+
+public class ManageTimeSheetServiceImpl implements ManageTimeSheetService {
+
+    protected SimpleJdbcTemplate jdbcTemplate = null;
+
+    public void setDataSource(final DataSource dataSource) {
+        this.jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+    }
+
+    public SimpleJdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(SimpleJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<Employee> getEmployees() {
+        try
+        {
+        String query = "SELECT emp_id,emp_fname,emp_lname,dept_id,role_id,emp_email FROM EMPLOYEE_MASTER";
+        List<Employee> emplist = jdbcTemplate.getJdbcOperations().query(query, new GetEmpRowMapper());
+        return emplist;
+        }
+        catch(DataAccessException dae)
+        {
+            dae.printStackTrace();
+            return null;
+        }
+    }
+
+    private static class GetEmpRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Employee employee = new Employee();
+            employee.setEmp_id(rs.getString("emp_id"));
+            employee.setEmp_fname(rs.getString("emp_fname"));
+            employee.setEmp_lname(rs.getString("emp_lname"));
+            employee.setDept_id(rs.getInt("dept_id"));
+            employee.setRole_id(rs.getInt("role_id"));
+            employee.setEmp_email(rs.getString("emp_email"));
+            return employee;
+
+        }
+    }
+    public static String getDD_MM_YYYY(Date transDate) {
+        String transdate = null;
+        try {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+            transdate = sdf1.format(transDate);
+            return transdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<EmpTransaction> getMonthTransaction(String emp_id) {
+        System.out.println("IN GET MONTH TRANSA METHOD"+emp_id);
+        String query = "SELECT * FROM EMPLOYEE_TRANSACTION et,EMPLOYEE_MASTER emp,assign_by_master ab, project_master proj"+
+                " WHERE et.emp_id='"+emp_id + "' and ab.assign_by_id=et.assign_by and "+
+                "emp.emp_id=et.proxy_empid and "+
+                "et.proj_id=proj.proj_id and "+
+                "trans_date >= date_format(CURDATE(),'%Y-%m-01')";
+          try{
+            List<EmpTransaction> et = (List<EmpTransaction>) jdbcTemplate.getJdbcOperations().query(query, new MonthTransactionRowMapper());
+            System.out.println("end of list controller"+et);
+        return et;
+          }
+          catch(DataAccessException dae){
+              dae.printStackTrace();
+              return null;
+          }
+
+    }
+
+    private static class MonthTransactionRowMapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            EmpTransaction et = new EmpTransaction();
+            et.setEmp_id(rs.getString("emp_id"));
+            et.setEmp_fname(rs.getString("emp_fname"));
+            et.setAssign_by_id(rs.getInt("assign_by"));
+            et.setAssign_by_name(rs.getString("assign_by_name"));
+            et.setTrans_date(getDD_MM_YYYY(rs.getDate("trans_date")));
+            et.setStart_time(rs.getString("start_time"));
+            et.setEnd_time(rs.getString("end_time"));
+            et.setProj_id(rs.getInt("proj_id"));
+            et.setProj_name(rs.getString("proj_name"));
+            et.setProxy_empid(rs.getString("proxy_empid"));
+            
+            et.setWork_desc(rs.getString("work_desc"));
+
+            return et;
+        }
+    }
+    public String getEmpName(String emp_id){
+        try
+        {
+        String query="SELECT EMP_FNAME FROM EMPLOYEE_MASTER WHERE EMP_ID='"+emp_id+"'";
+       Employee emp=(Employee) jdbcTemplate.getJdbcOperations().queryForObject(query, new GetEmpNameMapper());
+       String empname=emp.getEmp_fname();
+       System.out.println(empname);
+       return empname;
+        }
+        catch(DataAccessException dae)
+        {
+            dae.printStackTrace();
+            return null;
+        }
+    }
+    private static class GetEmpNameMapper implements RowMapper{
+        public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+            Employee e = new Employee();
+            e.setEmp_fname(rs.getString("emp_fname"));
+            return e;
+        }
+
+    }
+}

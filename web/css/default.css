@@ -1,0 +1,242 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #FFFFFF;
+    font-family: Arial;
+    font-size: 13px;
+    /*color: #6D6D6D;*/
+    color: #520000;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    font-weight: normal;
+    color: #78CC00;
+}
+
+h1 {
+    letter-spacing: -1px;
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+p, ul, ol {
+    margin: 0 0 2em 0;
+    text-align: justify;
+    line-height: 26px;
+}
+
+a:link {
+    color: #520000;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: #520000;
+}
+
+a:visited {
+    color: #520000;
+}
+
+img {
+    border: none;
+}
+
+img.left {
+    float: left;
+    margin: 7px 15px 0 0;
+}
+
+img.right {
+    float: right;
+    margin: 7px 0 0 15px;
+}
+
+/* Form */
+form {
+    margin: 0;
+    padding: 0;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+legend {
+    display: none;
+}
+
+input, textarea, select {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #333333;
+}
+
+#wrapper {
+    background: url(images/Header5.jpg)repeat-x;
+}
+
+/* Header */
+.header {
+    background: url(images/header6.jpg);
+    _background: url(images/header6.jpg);
+    height:80px;
+    color:#FFFFFF;
+    font-family:Arial;
+}
+
+#logo {
+    float: left;
+    height: 120px;
+    margin-left: 30px;
+}
+
+#logo h1 {
+    font-size: 38px;
+    color: red;
+}
+
+#logo h1 sup {
+    vertical-align: text-top;
+    font-size: 24px;
+}
+
+#logo h1 a {
+    color: #FFFFFF;
+}
+
+#logo h2 {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+#logo a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+/* Menu */
+.navigation {
+	height: 28px;
+	width: 100%;
+	color: #FFFFFF;
+        _color: #FFFFFF;
+	background: url(images/button_bg.jpg);
+        text-decoration:none;
+        _text-decoration:none;
+        font-family: Arial;
+        text-align:center;
+        line-height: 28px;
+        font-size: 12px;
+        background-position: center center;
+}
+.rollover a{
+	background: url(images/button_bg.jpg);
+	height: 28px;
+	width: 100px;
+	font-family: Arial;
+	line-height: 28px;
+	color: #FFFFFF;
+        _color: #FFFFFF;
+	background-position: center center;
+	text-align: center;
+	font-size: 12px;
+        text-decoration:none;
+        
+}
+.rollover a:hover{
+	background: url(images/button_bg.jpg);
+	height: 28px;
+	width: 100px;
+        font-family: Arial;
+        line-height: 28px;
+        color: #FFFFFF;
+        background-position: center center;
+        text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+        text-decoration:none;
+}
+/*.rolloverbox {
+
+	height: 31px;
+	width: 77px;
+	color: #99CC00;
+	background-color: #040B67;
+	float: left;
+}*/
+
+#menu ul {
+    margin: 0;
+    padding: 5px 0 0 0;
+    padding-right: 0px;
+    list-style: none;
+}
+
+#menu li {
+    display: table-row-group;
+}
+
+#menu a {
+    display: block;
+    float: left;
+    margin-left: 1px;
+    padding: 1px 5px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight:bolder;
+    color: #FFFFFF;
+}
+
+
+
+#menu .active a {
+
+}
+
+/* Footer */
+#footer {
+    height:30px;
+    min-height:25px;
+    background:  url('images/footer1.jpg');
+    _background:  url('images/footer1.jpg');
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    text-align: center;
+    line-height:25px;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+html>body #footer {
+    /*height: auto;*/
+}
+
+#legal {
+    text-align: center;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+#legal a {
+    font-weight: bold;
+    color: #FFFFFF;
+}
+.pgtitle{ font-size:20px; color: #640000; margin-left:0px; font-weight:bold;}
+.box{position:relative;background-color:#520000;margin-bottom:0px;padding:1px; }
+.box .bg-white{background-color:#fff;padding:5px;}
+.dataTable{border:#663300 solid 1px; padding:3px; font-size:14px; color:#520000; }
+.dataTable3{border:#CC3300 solid 0px; width:100%; padding:3px; font-size:14px; color:#520000; }
+.dataTable.head{ padding:3px; background-image: url(images/button_bg.gif); color:#FFFFFF; font-weight:bold; nowrap: nowrap; font-family:Arial, Helvetica, sans-serif; font-size:15px; }
+.dataTable a{color:#520000;}
+.dataTable a:hover{color:#520000;}
+.datatable3 href{color:#520000;}
+.dataTable3 a{color:#520000;}
+.dataTable3 a:hover{color:#520000;}

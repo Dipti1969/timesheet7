@@ -1,0 +1,135 @@
+*
+{
+	padding:0px;
+	margin:0px;
+	font-family:"Trebuchet MS",Tahoma,Verdana;
+	font-size:13px;	
+}
+.main{
+	font-size:300px;
+}
+body {
+	background-color: #FFFFFF;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+div#main {
+	background-color: #FFFFFF;
+	float: left;
+	height: 550px;
+	width: 779px;
+	color: #CCCCCC;
+}
+
+
+div#line {
+	background-color: #FFFFFF;
+	float: left;
+	height: 2px;
+	width: 779px;
+	color: #CCCCCC;
+}
+
+div#text {
+	background-color: #FFFFFF;
+	float: left;
+	height: 307px;
+	width: 779px;
+	color: #CCCCCC;
+}
+div#bar {
+	background-color: #6C8EBD;
+	float: left;
+	height: 307px;
+	width: 135px;
+	color: #CCCCCC;
+}
+div#links {
+	background-color: #6C8EBD;
+	float: left;
+	height: 76px;
+	width: 135px;
+	text-align: center;
+	color: #FF6633;
+}
+div#linktxt {
+	background-color: #6C8EBD;
+	float: left;
+	height: 70px;
+	width: 57px;
+	padding-top: 20px;
+	padding-bottom: 207px;
+	padding-right: 20px;
+	padding-left: 20px;
+	color: #CCFF00;
+}
+
+div#text2 {
+	background-color: #FFFFFF;
+	float: left;
+	height: 307px;
+	width: 495px;
+	color: #000000;
+}
+div#text2txt {
+	background-color: #FFFFFF;
+	float: left;
+	width: 451px;
+	padding-top: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	color: #333333;
+}
+.contentTXT {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	line-height: 20px;
+	background-color: #FFFFFF;
+}
+.navLink {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	/*background-color: #DEDECA;*/
+	color: #FFFFFF;
+}
+
+.bluetxt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #050A65;
+	text-decoration: underline;
+	line-height: 20px;
+	background-color: #6C8EBD;
+}
+
+div#Num {
+
+	background-color: #FFFFFF;
+	float: left;
+	height: 4px;
+	width: 779px;
+	color: #FFCC00;
+}
+
+.pgtitle{ font-size:20px; color: #640000; margin-left:0px; font-weight:bold;}
+.pgtitle1{ font-size:18px; color: #333366; margin-left:5px;font-family: cursive;}
+.dataTable{border:#663300 solid 1px; padding:3px; font-size:18px; color:#620000; }
+
+.dataTable3{border:#CC3300 solid 0px; width:100%; padding:3px; font-size:18px; color:#620000; }
+
+.dataTable1{border:#CC3300 solid 1px; width:57%; padding:3px; font-size:18px; color:#640000 }
+.dataTable2{border:#CC3300 solid 1px; width:40%; padding:3px; font-size:18px; color:#640000 }
+.odd{ padding:3px; background:#FFFFFF; border-left:#efefef solid 1px; border-bottom:#FFffff solid 1px; font-size:16px;}
+.even{ padding:3px; background:#EEEEEE; border-left:#efefef solid 1px; border-bottom:#FFffff solid 1px; font-size:16px;}
+.dataTable.head{ padding:3px; background-image: url(images/button_bg.gif); color:#FFFFFF; font-weight:bold; nowrap: nowrap; font-family:Arial, Helvetica, sans-serif; font-size:15px; }
+.dataTable a{color:#620000;}
+.dataTable a:hover{color:#0000CC;}

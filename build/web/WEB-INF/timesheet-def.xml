@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+<!-- base layout Tiles definitions start-->
+    <definition name="baseLayout" template="/WEB-INF/common/baseLayout.jsp">
+        <put-attribute name="title"  value=""/>
+        <put-attribute name="header" value="/WEB-INF/common/header.jsp"/>
+        <put-attribute name="menu" value=""/>
+        <put-attribute name="body"   value=""/>
+        <put-attribute name="footer" value="/WEB-INF/common/footer.jsp"/>
+    </definition>
+<!-- base layout Tiles definitions ends-->
+
+
+
+
+<!-- Update Assign_By  page tiles definitions start -->
+    <definition name="updateassignby" extends="baseLayout">
+        <put-attribute name="title"  value="Update AssignBY"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updateassignby.jsp"/>
+    </definition>
+<!-- Update Assign_By page tiles definitions end -->
+
+<!-- manage masters page tiles definitions start -->
+    <definition name="managemasters" extends="baseLayout">
+        <put-attribute name="title"  value="Manage Masters"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/managemasters.jsp"/>
+    </definition>
+<!-- manage masters page tiles definitions end -->
+
+<!-- welcome page Tiles definitions start-->
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title"  value="TimeSheet"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/login.jsp"/>
+    </definition>
+<!-- welcome page Tiles definitions end-->
+
+<!-- adminhome page tiles definitions start -->
+    <definition name="adminhome" extends="baseLayout">
+        <put-attribute name="title"  value="Admin HomePage"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adminhome.jsp"/>
+    </definition>
+<!-- adminhome page tiles definitions end -->
+
+<!-- employee home page tiles definitions start -->
+    <definition name="emphome" extends="baseLayout">
+        <put-attribute name="title"  value="Employee HomePage"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/emphome.jsp"/>
+    </definition>
+<!-- employee home page tiles definitions end -->
+
+<!-- employee home1 page tiles definitions start -->
+    <definition name="empindex" extends="baseLayout">
+        <put-attribute name="title"  value="Employee HomePage"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/empindex.jsp"/>
+    </definition>
+<!-- employee home1 page tiles definitions end -->
+
+<!-- receptionist home page tiles definitions start -->
+    <definition name="receptionisthome" extends="baseLayout">
+        <put-attribute name="title"  value="receptionist HomePage"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/receptionisthome.jsp"/>
+    </definition>
+<!-- receptionist home page tiles definitions end -->
+
+<!-- Error  page tiles definitions start -->
+    <definition name="error" extends="baseLayout">
+        <put-attribute name="title"  value="Error Page"/>
+      <!--  <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />-->
+        <put-attribute name="body"   value="/WEB-INF/jsp/error.jsp"/>
+    </definition>
+<!-- Error home page tiles definitions end -->
+
+<!-- Employee REgistration  page tiles definitions start -->
+    <definition name="registration" extends="baseLayout">
+        <put-attribute name="title"  value="Emp Registration"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/registration.jsp"/>
+    </definition>
+<!-- Employee Registration  page tiles definitions end -->
+
+<!-- Employee Edit Rgistration  page tiles definitions start -->
+    <definition name="updateuser" extends="baseLayout">
+        <put-attribute name="title"  value="Update User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updateuser.jsp"/>
+    </definition>
+<!-- Employee Edit Registration  page tiles definitions end -->
+
+<!-- Employee Edit Rgistration  page tiles definitions start -->
+    <definition name="viewuser" extends="baseLayout">
+        <put-attribute name="title"  value="View User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/viewuser.jsp"/>
+    </definition>
+<!-- Employee Edit Registration  page tiles definitions end -->
+
+<!-- Manage User  page tiles definitions start -->
+    <definition name="manageuser" extends="baseLayout">
+        <put-attribute name="title"  value="Manage User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/manageuser.jsp"/>
+    </definition>
+<!-- Manage User   page tiles definitions end -->
+
+
+<!-- Manage Assign_By  page tiles definitions start -->
+    <definition name="manageassignby" extends="baseLayout">
+        <put-attribute name="title"  value="Manage User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/manageassignby.jsp"/>
+    </definition>
+<!--  Manage Assign_By  page tiles definitions end -->
+
+<!-- Add Assign_By  page tiles definitions start -->
+    <definition name="addassignby" extends="baseLayout">
+        <put-attribute name="title"  value="Manage User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/addassignby.jsp"/>
+    </definition>
+<!-- Add Assign_By   page tiles definitions end -->
+
+<!-- changepassword layout tiles definitions start -->
+     <definition name="changepassword" extends="baseLayout">
+        <put-attribute name="title"  value="Change Password"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/changepassword.jsp"/>
+    </definition>
+<!-- changepassword layout tiles definitions end -->
+
+<!-- changeprofile layout tiles definitions start -->
+     <definition name="changeprofile" extends="baseLayout">
+        <put-attribute name="title"  value="Change Profile"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/changeprofile.jsp"/>
+    </definition>
+<!-- changeprofile layout tiles definitions end -->
+
+<!-- Manage Project  page tiles definitions start -->
+    <definition name="manageproject" extends="baseLayout">
+        <put-attribute name="title"  value="Manage Project"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/manageproject.jsp"/>
+    </definition>
+<!-- Manage Project  page tiles definitions end -->
+
+<!-- add Project  page tiles definitions start -->
+    <definition name="addproject" extends="baseLayout">
+        <put-attribute name="title"  value="Add Project"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/addproject.jsp"/>
+    </definition>
+<!-- add Project  page tiles definitions end -->
+
+<!--updateProject  page tiles definitions start -->
+    <definition name="updateproject" extends="baseLayout">
+        <put-attribute name="title"  value="Update Project"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updateproject.jsp"/>
+    </definition>
+<!-- update Project  page tiles definitions end -->
+
+<!-- View Project  page tiles definitions start -->
+    <definition name="viewproject" extends="baseLayout">
+        <put-attribute name="title"  value="View User"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/viewproject.jsp"/>
+    </definition>
+<!-- View Project page tiles definitions end -->
+
+<!-- addtimesheet page tiles definitions start -->
+    <definition name="addtimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Add TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/addtimesheet.jsp"/>
+    </definition>
+<!-- addtimesheet page tiles definitions ends -->
+
+<!-- Manage TimeSheet  page tiles definitions start -->
+    <definition name="managetimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Manage TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/managetimesheet.jsp"/>
+    </definition>
+<!-- Manage TimeSheet page tiles definitions end -->
+
+<!-- updatetimesheet page tiles definitions start -->
+    <definition name="updatetimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Add TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updatetimesheet.jsp"/>
+    </definition>
+<!-- updatetimesheet page tiles definitions ends -->
+
+<!--Admin Manage TimeSheet  page tiles definitions start -->
+    <definition name="adminmanagetimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Admin Manage TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adminmanagetimesheet.jsp"/>
+    </definition>
+<!--Admin Manage TimeSheet page tiles definitions end -->
+
+<!--Admin View TimeSheet  page tiles definitions start -->
+    <definition name="viewtimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="View TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/viewtimesheet.jsp"/>
+    </definition>
+<!--Admin View TimeSheet page tiles definitions end -->
+
+<!--Forgot Password  page tiles definitions start -->
+    <definition name="forgotpassword" extends="baseLayout">
+        <put-attribute name="title"  value="View TimeSheet"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/forgotpassword.jsp"/>
+    </definition>
+<!--Forgot Password page tiles definitions end -->
+
+<!--adminreport jsp page tiles definitions start -->
+    <definition name="adminreport" extends="baseLayout">
+        <put-attribute name="title"  value="View Reports"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adminreport.jsp"/>
+    </definition>
+<!--adminreport jsp tiles definitions end -->
+
+<!--showadminreport jsp page tiles definitions start -->
+    <definition name="showadminreport" extends="baseLayout">
+        <put-attribute name="title"  value="Admin Reports"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/showadminreport.jsp"/>
+    </definition>
+<!--showadminreport jsp tiles definitions end -->
+
+<!--employee report jsp page tiles definitions start -->
+    <definition name="employeereport" extends="baseLayout">
+        <put-attribute name="title"  value="Employee Reports"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/employeereport.jsp"/>
+    </definition>
+<!--employee report jsp tiles definitions end -->
+
+<!--receptionist report jsp page tiles definitions start -->
+    <definition name="receptionistreport" extends="baseLayout">
+        <put-attribute name="title"  value="Receptionist Reports"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/receptionistreport.jsp"/>
+    </definition>
+<!--receptionist report jsp tiles definitions end -->
+
+<!--showadminreport jsp page tiles definitions start -->
+    <definition name="securityfailed" extends="baseLayout">
+        <put-attribute name="title"  value="Error Page"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/securityfailed.jsp"/>
+    </definition>
+<!--showadminreport jsp tiles definitions end -->
+
+<!--checkhours jsp page tiles definitions start -->
+    <definition name="checkhours" extends="baseLayout">
+        <put-attribute name="title"  value="Current Month TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/checkhours.jsp"/>
+    </definition>
+<!--checkhours jsp tiles definitions end -->
+
+<!--AdminEdit jsp page tiles definitions start -->
+    <definition name="adminedit" extends="baseLayout">
+        <put-attribute name="title"  value="edit TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adminedit.jsp"/>
+    </definition>
+<!--AdminEdit jsp tiles definitions end -->
+
+<!--AdminEditTimeSheet jsp page tiles definitions start -->
+    <definition name="adminedittimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="edit TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adminedittimesheet.jsp"/>
+    </definition>
+<!--AdminEditTimeSheet jsp tiles definitions end -->
+
+<!-- addrighttimesheet page tiles definitions start -->
+    <definition name="addrighttimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Add Right TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/addrighttimesheet.jsp"/>
+    </definition>
+<!-- addrighttimesheet page tiles definitions ends -->
+<!-- checktotalhours.htm tiles start-->
+    <definition name="checktotalhours" extends="baseLayout">
+        <put-attribute name="title"  value="Check Total Hours"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/checktotalhours.jsp"/>
+    </definition>
+<!-- checktotalhours.htm ends -->
+
+<!-- viewalltimesheet.htm tiles start-->
+    <definition name="viewalltimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="View All TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/viewalltimesheet.jsp"/>
+    </definition>
+<!-- viewalltimesheet.htm ends -->
+
+<!-- addadmintimesheet.htm tiles start-->
+    <definition name="addadmintimesheet" extends="baseLayout">
+        <put-attribute name="title"  value="Add Admin TimeSheet"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/addadmintimesheet.jsp"/>
+    </definition>
+<!-- viewalltimesheet.htm ends -->
+
+<!-- updatetransaction.htm tiles start-->
+    <definition name="updatetransaction" extends="baseLayout">
+        <put-attribute name="title"  value="Update Transaction"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updatetransaction.jsp"/>
+    </definition>
+<!-- updatetransaction.htm ends -->
+
+<!-- Update Department  page tiles definitions start -->
+    <definition name="updatedept" extends="baseLayout">
+        <put-attribute name="title"  value="Update Department"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updatedept.jsp"/>
+    </definition>
+<!-- Update Department   page tiles definitions end -->
+
+<!-- Add Department  page tiles definitions start -->
+    <definition name="adddept" extends="baseLayout">
+        <put-attribute name="title"  value="Add Department"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adddept.jsp"/>
+    </definition>
+<!-- Add Department   page tiles definitions end -->
+
+<!-- Manage Department  page tiles definitions start -->
+    <definition name="managedept" extends="baseLayout">
+        <put-attribute name="title"  value="Manage Department"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/managedept.jsp"/>
+    </definition>
+<!-- Manage Department   page tiles definitions end -->
+
+<!-- Update Designation  page tiles definitions start -->
+    <definition name="updatedesi" extends="baseLayout">
+        <put-attribute name="title"  value="Update Designation"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/updatedesi.jsp"/>
+    </definition>
+<!-- Update Designation   page tiles definitions end -->
+
+<!-- Add Designation  page tiles definitions start -->
+    <definition name="adddesi" extends="baseLayout">
+        <put-attribute name="title"  value="Add Designation"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/adddesi.jsp"/>
+    </definition>
+<!-- Add Designation   page tiles definitions end -->
+
+<!-- Manage Designation  page tiles definitions start -->
+    <definition name="managedesi" extends="baseLayout">
+        <put-attribute name="title"  value="Manage Designation"/>
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body"   value="/WEB-INF/jsp/managedesi.jsp"/>
+    </definition>
+<!-- Manage Designation   page tiles definitions end -->
+
+
+</tiles-definitions>

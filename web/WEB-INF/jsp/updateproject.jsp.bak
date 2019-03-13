@@ -1,0 +1,118 @@
+<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page import="com.timesheet.bean.Project" %>
+<%
+            Project project = (Project) request.getSession().getAttribute("UPDATE_PROJECT");
+            if (project == null) {
+                project = new Project();
+            }
+%>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <title></title>
+        <link rel="stylesheet" href="default.css" />
+        <script type='text/javascript' src="${pageContext.request.contextPath}/js/jquery.js"></script>
+        <script type='text/javascript' src="${pageContext.request.contextPath}/js/jRounded.js"></script>
+         <script type="text/javascript" src="${pageContext.request.contextPath}/js/calendar.js"></script>
+        <script>           
+            $(document).ready(function() {
+                $('.boxMe').box();
+                $('.oxMe').box();
+                $('.otherOne, .anotherOne').box();
+            });
+            function loginfocus()
+            {
+                document.updatepro.proj_name.focus();
+            }
+            function cancel()
+            {
+                document.location.href="manageproject.htm";
+            }
+             function isDateKey(evt)
+            {
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 47 || charCode > 57))
+                    return false;
+                else
+                    return true;
+            }
+            function isCharKey(evt)
+            {	var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122))
+                    return false;
+                else
+                    return true;
+            }
+        </script>
+        <style>
+            .error{
+                color:#ff0000;
+                font-style:normal;
+            }
+        </style>
+    </head>
+    <body onload="loginfocus()">
+        <div class="anotherOne"><center><font face="arial" style="font-size:16px;font-weight:bold;" color="#FFFFFF">Update Project</font></center></div>
+        <form:form method="POST" commandName="updatepro" action="updateproject.htm" name="updatepro">
+            <div class="anotherOne bg-white" style="padding-left:15px;height:250px;" >
+                <table>
+                
+
+                    <tr>
+                        <td>ProjectID</td>
+                        <td><input style="border:1px solid #520000" type="text" size="20" name="proj_id" readonly value="<%= project.getProj_id()%>"/></td>
+                    </tr>
+                    <tr>
+                        <td>Project Name*</td>
+                        <td><input style="border:1px solid #520000" type="text" size="20" maxlength="50" name="proj_name" value="<%= project.getProj_name()%>" onkeypress="return isCharKey(event)" /></td>
+                        <td> <form:errors path="proj_name" cssClass="error" /> </td>
+                    </tr>
+                    <tr>
+                        <td>Start Date*</td>
+                        <td><input id="datepicker1" style="border:1px solid #520000" type="text" size="20" name="start_date" value="<%= project.getStart_date()%>" onkeypress="return isDateKey(event)" /></td>
+                        <td><input type="button" style="background:url(images/calendar.gif); width:15px;height:16px; border-style:none;cursor:pointer;" id="datepicker_button1"> (DD/MM/YYYY)</td>
+                        <td> <form:errors path="start_date" cssClass="error" /></td>
+                    </tr>
+                    <tr>
+                        <td>End Date*</td>
+                        <td><input id="datepicker2" style="border:1px solid #520000" type="text" size="20" name="end_date" value="<%= project.getEnd_date()%>" onkeypress="return isDateKey(event)"/></td>
+						<td><input type="button" style="background:url(images/calendar.gif); width:15px;height:16px; border-style:none;cursor:pointer;" id="datepicker_button2"> (DD/MM/YYYY)</td>
+                        <td> <form:errors path="end_date" cssClass="error" /></td>
+                    </tr>
+                    <tr>
+                        <td>Target Date*</td>
+                        <td><input id="datepicker3" style="border:1px solid #520000" type="text" size="20" name="target_date" value="<%= project.getTarget_date()%>" onkeypress="return isDateKey(event)"/> </td>
+                        <td><input type="button" style="background:url(images/calendar.gif); width:15px;height:16px; border-style:none;cursor:pointer;" id="datepicker_button3"> (DD/MM/YYYY)</td>
+                        <td> <form:errors path="target_date" cssClass="error" /></td>
+                    </tr>
+                    <tr>
+                        <td>Project Description*</td>
+                        <td><textarea style="border:1px solid #520000" cols="17" rows="3" name="proj_desc" ><%= project.getProj_desc()%></textarea></td>
+                        <td> <form:errors path="proj_desc" cssClass="error" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input class="button" type="submit" value="Update">
+                            <input class="button" type="button" value="Cancel" onclick="cancel()">
+							<input type="hidden" value="DD/MM/YYYY" id="dateFormatId">
+						</td>
+                    </tr>
+
+                </table>
+            </div>                       
+        </form:form>
+    </body>
+	 <script type="text/javascript">
+            var bas_cal,dp_cal,ms_cal;
+            window.onload = function () {
+                new Epoch('epoch_popup1','popup',document.getElementById('datepicker1'),document.getElementById('datepicker_button1'));
+                new Epoch('epoch_popup2','popup',document.getElementById('datepicker2'),document.getElementById('datepicker_button2'));
+				new Epoch('epoch_popup2','popup',document.getElementById('datepicker3'),document.getElementById('datepicker_button3'));
+            }
+    </script>
+</html>
